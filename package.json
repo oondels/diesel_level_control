@@ -1,0 +1,33 @@
+{
+  "name": "diesel_level_control",
+  "version": "1.0.0",
+  "description": "mapeamento automatico de nivel do diesel",
+  "main": "./server/dieselLevel.js",
+  "scripts": {
+    "dev": "nodemon dieselLevel.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oondels/diesel_level_control.git"
+  },
+  "keywords": [
+    "diesel",
+    "level",
+    "control"
+  ],
+  "author": "Hendrius Félix",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oondels/diesel_level_control/issues"
+  },
+  "homepage": "https://github.com/oondels/diesel_level_control#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "http": "^0.0.1-security"
+  }
+}
