@@ -7,7 +7,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-#define SERVER_IP "http://10.110.20.101:2399/post-diesel"
+#define SERVER_IP "http://10.110.20.198:3050/post-diesel"
 
 // Wifi Configuration
 #ifndef SSID
@@ -23,24 +23,28 @@ Ultrasonic ultrasonic(TRIGGER_PIN, ECHO_PIN);
 
 // Reading Interval (5 seconds)
 unsigned long previousMillis = 0;
-const long interval = 3000;
+const long interval = 5000;
 
 float measureVolume(float distance_from_sensor) {
-  // Dados do copo
-  // V = 1/3 πh(R² + Rr + r²)
+  float h_total = 19.5; // Altura total do cilindro em cm
+  double r_um = 9;      // Raio maior do cilindro em cm
+  double r_dois = 7.75; // Raio menor do cilindro em cm
 
-  float h_total = 8.46; 
-  float R = 3.40;     
-  float r = 2.30;    
+  // Calculo do volume total
+  float h_filled = 1/3 * h_total * ((M_PI * r_um) + (M_PI * r_dois) + sqrt(r_um * r_dois));
 
-  // Calcula a altura preenchida
-  float h_filled = h_total - distance_from_sensor;
+  // Calculo volume atual preenchido
+  float v_filled = 1/3 * (h_total - distance_from_sensor) * ((M_PI * r_um) + (M_PI * r_dois) + sqrt(r_um * r_dois));
 
-  // Calcula o volume atual preenchido
-  float v_total = (1.0 / 3.0) * h_total * M_PI * (pow(R, 2) + R * r + pow(r, 2));
-  float v_filled = (1.0 / 3.0) * h_filled * M_PI * (pow(R, 2) + R * r + pow(r, 2));
+  Serial.print("Volume: ");
+  Serial.println(v_filled / 1000); // Convertendo cm³ para litros
 
-  return v_filled; 
+  Serial.print("=============================");
+
+  Serial.println("Distância: ");
+  Serial.print(distance_from_sensor);
+
+  return v_filled;
 }
 
 void setup() {
@@ -93,7 +97,7 @@ void loop() {
         
         // Data to send with HTTP POST
         char dieselData[100];
-        snprintf(dieselData, sizeof(dieselData), "{\"nivel\":%.4f,\"unidade_dass\":1,\"distance\":%.4f}", volume);
+        snprintf(dieselData, sizeof(dieselData), "{\"nivel\":%.4f,\"unidade_dass\":1}", volume);
 
         
         
