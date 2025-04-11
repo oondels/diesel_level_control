@@ -21,7 +21,6 @@
 
 Ultrasonic ultrasonic(TRIGGER_PIN, ECHO_PIN);
 
-// Reading Interval (5 seconds)
 unsigned long previousMillis = 0;
 const long interval = 5000;
 
@@ -52,7 +51,6 @@ void setup() {
   pinMode(TRIGGER_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
   
-  // Connect to Wi-Fi
   WiFi.begin(SSID, PASS);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -89,7 +87,6 @@ void loop() {
       if (distance == 0) {
         Serial.println("Erro no sensor");
       } else {
-        // Specify the URL
         http.begin(client, SERVER_IP);
         http.addHeader("Content-Type", "application/json");
 
